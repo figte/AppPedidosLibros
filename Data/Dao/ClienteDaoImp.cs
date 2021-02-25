@@ -19,12 +19,136 @@ namespace Data.Dao
 
         public Cliente create(Cliente cliente)
         {
-            throw new NotImplementedException();
+          
+            Cliente item = new Cliente();
+
+            //conectandome a la base de datos
+            conn.conectar();
+
+            String fecha= cliente.FechaNacimiento.Year+"/"+ cliente.FechaNacimiento.Month+"/"+cliente.FechaNacimiento.Day;
+
+            string sql = "Insert into clientes(nombre,apellidos,fecha_nacimiento,direccion,telefono,email) "
+               +" output INSERTED.id, INSERTED.nombre, INSERTED.apellidos, INSERTED.fecha_nacimiento, INSERTED.direccion, INSERTED.telefono,INSERTED.email"
+                +" values ('"+cliente.Nombre+ "','" + cliente.Apellidos + "','" + fecha + "','" + cliente.Direccion + "','" + cliente.Telefono + "','" + cliente.Email + "')";
+
+
+            using (var conexion = conn.getConexion())
+            {
+
+                conexion.Open();
+
+                using (var tran = conexion.BeginTransaction())
+                {
+
+                    using (var command = new SqlCommand(sql, conexion, tran))
+                    {
+                        try
+                        {
+
+                         
+
+                            try
+                            {
+
+                                //int r= command.ExecuteNonQuery();
+
+
+                                SqlDataReader rdr = command.ExecuteReader();
+
+                                while (rdr.Read())
+                                {
+
+                                    item.Id = int.Parse(rdr["id"].ToString());
+                                    item.Nombre = (string)rdr["nombre"];
+                                    item.Apellidos = (string)rdr["apellidos"];
+                                    item.FechaNacimiento = (DateTime)rdr["fecha_nacimiento"];
+                                    item.Direccion = (string)rdr["direccion"];
+                                    item.Telefono = (string)rdr["telefono"];
+                                    item.Email = (string)rdr["email"];
+
+
+                                }
+
+                                rdr.Close();
+
+                                tran.Commit();
+                            }
+                            catch (Exception e) {
+                                Console.WriteLine("error: " + e.Message);
+                            }
+
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            conexion.Close();
+                            string msg = ex.Message.ToString();
+                            Console.WriteLine("error: " + ex.Message);
+                            tran.Rollback();
+                            throw;
+                        }
+
+                    }
+
+                }
+            }
+
+            conn.desconectar(); //cerrando conexion y quitando valor de la cadena
+
+            return item;
         }
 
         public bool delete(Cliente cliente)
         {
-            throw new NotImplementedException();
+           
+            //conectandome a la base de datos
+            conn.conectar();
+
+            string sql = "delete from [dbo].[clientes] where id = @Id ";
+
+            try {
+                using (var conexion = conn.getConexion())
+                {
+
+                    conexion.Open();
+                    using (var tran = conexion.BeginTransaction())
+                    {
+
+                        using (var command = new SqlCommand(sql, conexion, tran))
+                        {
+                            try
+                            {
+
+                                command.Parameters.Add("@Id", SqlDbType.NVarChar);
+                                command.Parameters["@Id"].Value = cliente.Id;
+
+                                command.ExecuteNonQuery();
+
+                                tran.Commit();
+                              
+                            }
+                            catch (Exception ex)
+                            {
+                                conexion.Close();
+                                string msg = ex.Message.ToString();
+                                tran.Rollback();
+                                throw;
+                            }
+
+                        }
+
+                    }
+                }
+
+                conn.desconectar(); //cerrando conexion y quitando valor de la cadena
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+            
         }
 
         public IEnumerable<Cliente> getAll()
@@ -141,7 +265,60 @@ namespace Data.Dao
 
         public bool update(Cliente cliente)
         {
-            throw new NotImplementedException();
+            //conectandome a la base de datos
+            conn.conectar();
+            String fecha = cliente.FechaNacimiento.Year + "/" + cliente.FechaNacimiento.Month + "/" + cliente.FechaNacimiento.Day;
+          
+            string sql = "update  [dbo].[clientes] " +
+                "set nombre= '" +cliente.Nombre+"',"+
+                "apellidos= '" + cliente.Apellidos + "',"+
+                "fecha_nacimiento='" + fecha + "',"+
+                "direccion='" +cliente.Direccion+"',"+
+                "telefono='" + cliente.Telefono + "',"+
+                "email='" + cliente.Email + "' "+
+                " where id = " + cliente.Id ;
+
+            try
+            {
+                using (var conexion = conn.getConexion())
+                {
+
+                    conexion.Open();
+                    using (var tran = conexion.BeginTransaction())
+                    {
+
+                        using (var command = new SqlCommand(sql, conexion, tran))
+                        {
+                            try
+                            {
+
+                             
+                                command.ExecuteNonQuery();
+
+                                tran.Commit();
+
+                            }
+                            catch (Exception ex)
+                            {
+                                conexion.Close();
+                                string msg = ex.Message.ToString();
+                                tran.Rollback();
+                                throw;
+                            }
+
+                        }
+
+                    }
+                }
+
+                conn.desconectar(); //cerrando conexion y quitando valor de la cadena
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
         }
     }
 }

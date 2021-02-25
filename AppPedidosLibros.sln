@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppPedidosLibros", "AppPedi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{BC854B79-0704-4D42-AF6D-E05096EA2BCF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiPedidosLibros", "ApiCliente\ApiPedidosLibros.csproj", "{6C124071-51FC-489B-9C11-954A4F52AE21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiClientes", "ApiCliente\ApiClientes.csproj", "{6C124071-51FC-489B-9C11-954A4F52AE21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

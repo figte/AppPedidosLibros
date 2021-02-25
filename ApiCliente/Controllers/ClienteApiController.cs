@@ -41,9 +41,9 @@ namespace ApiPedidosLibros.Controllers
 
         // POST api/<ClienteApiController>
         [HttpPost]
-        public void Post([FromBody] Cliente value)
+        public Cliente Post([FromBody] Cliente value)
         {
-            _service.create(value);
+            return _service.create(value);
         }
 
         // PUT api/<ClienteApiController>/5

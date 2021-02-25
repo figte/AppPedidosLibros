@@ -19,12 +19,12 @@ namespace ApiPedidosLibros.Services
 
         public Cliente create(Cliente cliente)
         {
-            throw new NotImplementedException();
+          return  _dao.create(cliente);
         }
 
         public bool delete(Cliente cliente)
         {
-            throw new NotImplementedException();
+           return _dao.delete(cliente);
         }
 
         public IEnumerable<Cliente> getAll()
@@ -39,7 +39,7 @@ namespace ApiPedidosLibros.Services
 
         public bool update(Cliente cliente)
         {
-            throw new NotImplementedException();
+            return _dao.update(cliente);
         }
     }
 }

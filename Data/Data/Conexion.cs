@@ -14,10 +14,11 @@ namespace Data.Data
 
         public Conexion()
         {
-            connStr = "Server=DESKTOP-Q4CVHK7\\SQLEXPRESS;Database=bd_biblioteca;User ID=sa;password=admin1234;";
+          // connStr = "Server=DESKTOP-Q4CVHK7\\SQLEXPRESS;Database=bd_biblioteca;User ID=sa;password=admin1234;Integrated Security=true";
         }
  
         public void conectar() {
+            connStr = "Server=DESKTOP-Q4CVHK7\\SQLEXPRESS;Database=bd_biblioteca;User ID=sa;password=admin1234;Integrated Security=true";
             conexion = new SqlConnection(connStr);
           
         }
@@ -27,7 +28,7 @@ namespace Data.Data
         }
 
         public void desconectar() {
-            conexion = null; 
+            
         }
     }
 }
