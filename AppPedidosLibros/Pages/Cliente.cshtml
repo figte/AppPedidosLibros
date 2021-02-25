@@ -1,0 +1,98 @@
+﻿@page
+@model AppPedidosLibros.Pages.Shared.ClienteModel
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<h4>Listado de Clientes</h4>
+
+<p>
+    @Html.ActionLink("Nuevo registro", "Create", "", new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-hover" id="tdatos" width="100%">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Apellidos
+            </th>
+            <th>
+                Fecha de Nacimiento
+            </th>
+            <th>
+                Direccion
+            </th>
+            <th>
+                Telefonos
+            </th>
+            <th>
+                Email
+            </th>
+            <th></th>
+        </tr>
+
+    </thead>
+</table>
+
+<script>
+
+    let data = {
+        "data": {}
+    }
+
+   
+        $(document).ready(function () {
+            //configuracion de datatable
+            var table = $('#tdatos').DataTable({
+                "searching": true,
+                "destroy": true,
+                "conditionalPaging": true,
+                "scrollCollapse": true,
+                "paging": true,
+                "lengthMenu": [[5, 10, 20, 30], [5, 10, 20, 30]],
+                "order": [[0, "desc"]],
+                "responsive": true,
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ ",
+                    "zeroRecords": "Datos no encontrados",
+                    "info": "Mostar páginas _PAGE_ de _PAGES_",
+                    "infoEmpty": "Datos no encontrados",
+                    "infoFiltered": "(Filtrados por _MAX_ total registros)",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Anterior",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                },
+              
+                "data":data,
+                "columns": [{
+                    "data": "id"
+                }, {
+                    "data": "nombre"
+                }, {
+                    "data": "apellidos"
+                }, {
+                    "data": "fechaNacimiento"
+                }, {
+                    "data": "direccion"
+                }, {
+                    "data": "telefono"
+                }, {
+                    "data": "email"
+                },
+                {
+                    "data": null, "render": function (data, type, full, meta) { return ('<a class="btn btn-info" href="/posts/Edit/' + full.id + '">Editar</a> '+'<a class="btn btn-danger" href="/posts/Delete/' + full.id + '">Eliminar </a>'); }
+                }],
+            })
+        
+        });
+</script>
